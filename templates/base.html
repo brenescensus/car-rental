@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI-Driven Car Rentals{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="AI Car Rentals Logo">
+                    <span>AI Car Rentals</span>
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('ai_recommendation') }}">AI Recommendations</a></li>
+                    <li><a href="{{ url_for('virtual_tour') }}">Virtual Tour</a></li>
+                    <li><a href="{{ url_for('smart_pricing') }}">Smart Pricing</a></li>
+                    <li><a href="{{ url_for('predictive_maintenance') }}">Predictive Maintenance</a></li>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="search-bar">
+                <form action="{{ url_for('search') }}" method="GET">
+                    <input type="text" name="q" placeholder="Search for cars...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <h3>About AI Car Rentals</h3>
+                    <p>We leverage artificial intelligence to provide the most efficient and personalized car rental experience.</p>
+                    <div class="contact">
+                        <span><i class="fas fa-phone"></i> +123-456-7890</span>
+                        <span><i class="fas fa-envelope"></i> info@aicarrentals.com</span>
+                    </div>
+                    <div class="socials">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('about') }}">About Us</a></li>
+                        <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section newsletter">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe for updates on new cars and special offers.</p>
+                    <form action="#" method="post">
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn-subscribe">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AI Car Rentals. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="chatbot-icon">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h3>AI Assistant</h3>
+            <span class="close-chat">&times;</span>
+        </div>
+        <div class="chatbot-messages">
+            <div class="message bot-message">
+                Hello! I'm your AI assistant. How can I help you with your car rental today?
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="user-message" placeholder="Type your message...">
+            <button id="send-message"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

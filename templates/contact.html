@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block title %}Contact Us - AI Car Rentals{% endblock %}
+
+{% block content %}
+<section class="contact-section">
+    <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Have questions about our AI-powered car rental services? Our team is ready to assist you. Reach out to us through any of the following channels:</p>
+                
+                <div class="contact-details">
+                    <div>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>
+                            <strong>Address:</strong><br>
+                            123 Innovation Drive<br>
+                            Silicon Valley, CA 94043
+                        </span>
+                    </div>
+                    <div>
+                        <i class="fas fa-phone"></i>
+                        <span>
+                            <strong>Phone:</strong><br>
+                            +1 (123) 456-7890
+                        </span>
+                    </div>
+                    <div>
+                        <i class="fas fa-envelope"></i>
+                        <span>
+                            <strong>Email:</strong><br>
+                            info@aicarrentals.com
+                        </span>
+                    </div>
+                    <div>
+                        <i class="fas fa-clock"></i>
+                        <span>
+                            <strong>Business Hours:</strong><br>
+                            Monday - Friday: 9 AM - 6 PM<br>
+                            Saturday: 10 AM - 4 PM<br>
+                            Sunday: Closed
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="social-contact">
+                    <h4>Connect With Us</h4>
+                    <div class="socials">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <h3>Send Us A Message</h3>
+                <p>Our AI assistant will analyze your inquiry and route it to the appropriate department.</p>
+                
+                <form id="contact-form" action="#" method="post">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject">
+                            <option value="general">General Inquiry</option>
+                            <option value="reservation">Reservation Question</option>
+                            <option value="technical">Technical Support</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="partnership">Partnership Opportunities</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Your Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="ai-feature">
+                            <input type="checkbox" id="ai-analysis" name="ai-analysis" checked>
+                            <label for="ai-analysis">Enable AI message analysis for faster response</label>
+                            <p class="feature-note">Our AI will analyze your message to categorize and prioritize your request</p>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+                
+                <div class="response-time">
+                    <i class="fas fa-robot"></i>
+                    <p>AI-Enhanced Response Time: <strong>2-4 Business Hours</strong></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="map-section">
+            <h3>Find Us</h3>
+            <div class="map-container">
+                <!-- Replace with actual map integration -->
+                <img src="{{ url_for('static', filename='images/backgrounds/map.jpg') }}" alt="Location Map">
+            </div>
+        </div>
+        
+        <div class="faq-section">
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h4>How does your AI recommendation system work?</h4>
+                    <p>Our AI system analyzes your preferences, driving habits, and rental history to suggest the perfect vehicle for your needs. It considers factors like trip duration, purpose, weather conditions, and more.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>What payment methods do you accept?</h4>
+                    <p>We accept all major credit cards, PayPal, Apple Pay, and Google Pay. For corporate clients, we also offer invoicing options.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>How does your dynamic pricing work?</h4>
+                    <p>Our AI continuously analyzes market conditions, demand patterns, and seasonality to adjust prices in real-time, ensuring you always get the best possible rate.</p>
+                </div>
+                <div class="faq-item">
+                    <h4>What is your cancellation policy?</h4>
+                    <p>Cancellations made 48 hours before the scheduled pickup receive a full refund. Later cancellations may incur a fee based on the rental value.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Simple form validation with AI suggestion feedback
+        const contactForm = document.getElementById('contact-form');
+        const messageField = document.getElementById('message');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Display loading indicator
+                const btn = this.querySelector('button[type="submit"]');
+                const originalText = btn.textContent;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                
+                // Simulate AI analysis of the message
+                setTimeout(function() {
+                    const aiSuggestion = document.createElement('div');
+                    aiSuggestion.classList.add('ai-suggestion');
+                    aiSuggestion.innerHTML = `
+                        <h4><i class="fas fa-robot"></i> AI Analysis Complete</h4>
+                        <p>Your message has been analyzed and will be directed to our ${document.getElementById('subject').value} team.</p>
+                        <p>Expected response time: <strong>2-4 hours</strong></p>
+                    `;
+                    
+                    contactForm.innerHTML = '';
+                    contactForm.appendChild(aiSuggestion);
+                    
+                    // Add thank you message
+                    const thankYou = document.createElement('div');
+                    thankYou.classList.add('thank-you-message');
+                    thankYou.innerHTML = `
+                        <h3>Thank You!</h3>
+                        <p>Your message has been sent successfully. We appreciate your interest in AI Car Rentals.</p>
+                        <p>A confirmation has been sent to your email address.</p>
+                    `;
+                    contactForm.appendChild(thankYou);
+                }, 2000);
+            });
+        }
+        
+        // AI suggestion for message content
+        if (messageField) {
+            messageField.addEventListener('input', function() {
+                // Remove any existing suggestion
+                const existingSuggestion = document.querySelector('.message-suggestion');
+                if (existingSuggestion) {
+                    existingSuggestion.remove();
+                }
+                
+                // If message is short, provide suggestion
+                if (this.value.length > 5 && this.value.length < 30) {
+                    const suggestion = document.createElement('div');
+                    suggestion.classList.add('message-suggestion');
+                    suggestion.innerHTML = `
+                        <p><i class="fas fa-lightbulb"></i> AI Suggestion: Consider adding more details about your specific needs for a more personalized response.</p>
+                    `;
+                    this.parentNode.appendChild(suggestion);
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

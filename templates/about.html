@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}About Us - AI Car Rentals{% endblock %}
+{% block content %}
+<section class="page-header" style="background: url('../static/images/backgrounds/about-bg.jpg') no-repeat center center/cover; height: 300px; position: relative; color: white; display: flex; align-items: center; text-align: center;">
+    <div class="container" style="position: relative; z-index: 10;">
+        <h1 style="font-size: 3rem; margin-bottom: 20px;">About Us</h1>
+        <p style="font-size: 1.2rem;">Learn about our mission to revolutionize car rentals with artificial intelligence</p>
+    </div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);"></div>
+</section>
+
+<section class="about-section">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="{{ url_for('static', filename='images/about/about-main.jpg') }}" alt="About AI Car Rentals">
+            </div>
+            <div class="about-content">
+                <h2>Our Story</h2>
+                <p>Founded in 2023, AI Car Rentals emerged from a simple observation: the traditional car rental experience was filled with inefficiencies, uncertainties, and missed opportunities for personalization.</p>
+                <p>Our founders, a team of AI specialists and automotive enthusiasts, set out to create a rental service that leverages the power of artificial intelligence to transform every aspect of the car rental journey – from selecting the perfect vehicle to optimizing pricing and maintenance.</p>
+                <p>Today, we're proud to be at the forefront of innovation in the car rental industry, constantly pushing the boundaries of what's possible when human expertise meets cutting-edge AI technology.</p>
+                <div style="margin-top: 30px;">
+                    <a href="{{ url_for('contact') }}" class="btn">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mission-vision" style="padding: 80px 0; background-color: #f9f9f9;">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+            <div class="mission-card" style="background: white; padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-bullseye"></i>
+                </div>
+                <h2 style="font-size: 1.8rem; margin-bottom: 20px; color: var(--dark-color);">Our Mission</h2>
+                <p>To create a car rental experience that is intelligent, efficient, and perfectly tailored to each customer's unique needs through the innovative application of artificial intelligence.</p>
+            </div>
+            <div class="vision-card" style="background: white; padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h2 style="font-size: 1.8rem; margin-bottom: 20px; color: var(--dark-color);">Our Vision</h2>
+                <p>To lead the transportation industry into a future where AI-driven solutions make mobility more accessible, affordable, and environmentally sustainable for everyone.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="our-approach" style="padding: 80px 0;">
+    <div class="container">
+        <h2 class="section-title">Our AI Approach</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;">
+            <div class="approach-card" style="background: white; padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: var(--dark-color);">Machine Learning</h3>
+                <p>Our recommendation systems learn from thousands of rental experiences to match you with your ideal vehicle based on your preferences, travel habits, and specific needs.</p>
+            </div>
+            <div class="approach-card" style="background: white; padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: var(--dark-color);">Predictive Analytics</h3>
+                <p>We use advanced predictive models to forecast demand, optimize pricing in real-time, and anticipate maintenance needs before they impact your journey.</p>
+            </div>
+            <div class="approach-card" style="background: white; padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                <div style="font-size: 2rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: var(--dark-color);">Natural Language Processing</h3>
+                <p>Our AI assistant understands your questions and provides intelligent, helpful responses to make your booking process smooth and effortless.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="team-section">
+    <div class="container">
+        <h2 class="section-title">Meet Our Team</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto 40px;">We're a diverse team of AI specialists, automotive experts, and customer experience designers working together to transform the car rental industry.</p>
+        <div class="team-grid">
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/team/team1.jpg') }}" alt="Sarah Johnson">
+                <div class="team-content">
+                    <h3>Sarah Johnson</h3>
+                    <span>CEO & Founder</span>
+                    <p>AI researcher with 15+ years of experience in machine learning and automotive technology integration.</p>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/team/team2.jpg') }}" alt="Michael Chen">
+                <div class="team-content">
+                    <h3>Michael Chen</h3>
+                    <span>CTO</span>
+                    <p>Former lead engineer at a major tech company, specializing in AI-driven predictive analytics systems.</p>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/team/team3.jpg') }}" alt="Alicia Rodriguez">
+                <div class="team-content">
+                    <h3>Alicia Rodriguez</h3>
+                    <span>Head of Customer Experience</span>
+                    <p>Expert in UX design with a passion for creating intuitive, AI-enhanced customer journeys.</p>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/team/team4.jpg') }}" alt="James Wilson">
+                <div class="team-content">
+                    <h3>James Wilson</h3>
+                    <span>AI Research Director</span>
+                    <p>PhD in Computer Science, leading our efforts to develop innovative AI solutions for the rental industry.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="values" style="padding: 80px 0; background-color: #f9f9f9;">
+    <div class="container">
+        <h2 class="section-title">Our Core Values</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
+            <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 style="margin-bottom: 15px;">Innovation</h3>
+                <p>We constantly push the boundaries of what's possible in the car rental industry through cutting-edge AI research and development.</p>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h3 style="margin-bottom: 15px;">Trust</h3>
+                <p>We build transparent systems that earn your confidence through consistent reliability, safety, and data protection.</p>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <h3 style="margin-bottom: 15px;">Personalization</h3>
+                <p>We believe every customer deserves an experience tailored specifically to their unique needs and preferences.</p>
+            </div>
+            <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3 style="margin-bottom: 15px;">Sustainability</h3>
+                <p>We're committed to using AI to optimize vehicle utilization and promote eco-friendly transportation options.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ai-video" style="padding: 80px 0;">
+    <div class="container" style="text-align: center;">
+        <h2 class="section-title">Our AI Technology in Action</h2>
+        <p style="max-width: 800px; margin: 0 auto 40px;">Watch this short video to see how our artificial intelligence transforms the car rental experience from start to finish.</p>
+        <div style="max-width: 800px; margin: 0 auto; box-shadow: var(--shadow); border-radius: var(--border-radius); overflow: hidden;">
+            <video controls width="100%" poster="{{ url_for('static', filename='images/video-thumbnail.jpg') }}">
+                <source src="{{ url_for('static', filename='videos/ai_demo.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</section>
+
+<section class="cta" style="background: var(--gradient); padding: 80px 0; text-align: center; color: white;">
+    <div class="container">
+        <h2 class="section-title" style="color: white;">Ready to Experience the Future of Car Rentals?</h2>
+        <p style="margin-bottom: 30px; font-size: 1.2rem; max-width: 700px; margin-left: auto; margin-right: auto;">Join us in revolutionizing the car rental industry with AI-powered solutions that make your journey smoother, more affordable, and perfectly tailored to your needs.</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('ai_recommendation') }}" class="btn" style="background: white; color: var(--primary-color); margin-right: 20px;">Try Our AI Recommendations</a>
+            <a href="{{ url_for('contact') }}" class="btn" style="background: transparent; border: 2px solid white;">Contact Us</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

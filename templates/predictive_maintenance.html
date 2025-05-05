@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}Predictive Maintenance - AI Car Rentals{% endblock %}
+
+{% block content %}
+<section class="page-header" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('{{ url_for('static', filename='images/backgrounds/maintenance-bg.jpg') }}') no-repeat center center/cover; height: 300px; display: flex; align-items: center; justify-content: center; color: white; text-align: center;">
+    <div class="container">
+        <h1>AI Predictive Maintenance</h1>
+        <p>Our advanced AI analyzes vehicle data to predict maintenance needs before they become issues</p>
+    </div>
+</section>
+
+<section class="maintenance-section">
+    <div class="container">
+        <h2 class="section-title">Vehicle Health Predictions</h2>
+        
+        <div class="ai-explanation">
+            <h3><i class="fas fa-robot"></i> How Our AI Works</h3>
+            <p>Our AI-powered predictive maintenance system continuously monitors vehicle performance data, analyzes patterns, and predicts potential issues before they affect your driving experience. The system considers factors such as mileage, driving conditions, component wear patterns, and manufacturer specifications to create personalized maintenance forecasts.</p>
+        </div>
+        
+        <div class="maintenance-grid">
+            {% for car in cars %}
+                {% if car.id in predictions %}
+                    <div class="maintenance-card">
+                        <div class="maintenance-header">
+                            <h3>{{ car.name }}</h3>
+                            <span class="car-category">{{ car.category }}</span>
+                            <div class="reliability-score">
+                                <div class="score">{{ predictions[car.id].reliability_score }}</div>
+                                <div class="reliability-meter">
+                                    <div class="fill" data-score="{{ predictions[car.id].reliability_score }}"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="maintenance-body">
+                            <img src="{{ car.image }}" alt="{{ car.name }}" class="car-image" style="width: 100%; height: auto; border-radius: var(--border-radius); margin-bottom: 15px;">
+                            <div class="service-date">
+                                <i class="fas fa-calendar-check"></i> Next Service: {{ predictions[car.id].next_service }}
+                            </div>
+                            <h4>Predicted Issues:</h4>
+                            <ul class="issue-list">
+                                {% for issue in predictions[car.id].predicted_issues %}
+                                    <li><i class="fas fa-exclamation-triangle"></i> {{ issue }}</li>
+                                {% endfor %}
+                            </ul>
+                            <div class="maintenance-actions">
+                                <button class="btn" onclick="showMaintenanceDetails({{ car.id }})">Full Report</button>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+        <div id="maintenance-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2>Maintenance Details</h2>
+                <div id="maintenance-details"></div>
+            </div>
+        </div>
+        
+        <div class="info-section" style="margin-top: 60px;">
+            <div class="info-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div class="info-card" style="background: white; padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                    <h3><i class="fas fa-chart-line"></i> Maintenance Analytics</h3>
+                    <p>Our AI analyzes maintenance patterns across our entire fleet to optimize maintenance schedules and minimize downtime. This data-driven approach ensures our vehicles are always in top condition.</p>
+                    <ul style="margin-top: 20px; padding-left: 20px;">
+                        <li>Reduced breakdown incidents by 78%</li>
+                        <li>Extended average vehicle lifespan by 20%</li>
+                        <li>Decreased maintenance costs by 35%</li>
+                        <li>Improved customer satisfaction by 45%</li>
+                    </ul>
+                </div>
+                <div class="info-card" style="background: white; padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                    <h3><i class="fas fa-shield-alt"></i> Safety Commitment</h3>
+                    <p>Your safety is our top priority. Our predictive maintenance system ensures that every vehicle meets our rigorous safety standards before it hits the road.</p>
+                    <div style="margin-top: 20px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <div style="width: 50px; height: 50px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4>100-Point Inspection</h4>
+                                <p>Every vehicle undergoes a comprehensive inspection</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 50px; height: 50px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                <i class="fas fa-sync"></i>
+                            </div>
+                            <div>
+                                <h4>Continuous Monitoring</h4>
+                                <p>Real-time performance monitoring during rental period</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block extra_scripts %}
+<script>
+    function showMaintenanceDetails(carId) {
+        // In a real implementation, this would fetch detailed maintenance data
+        // For now, just show a sample report
+        const modal = document.getElementById('maintenance-modal');
+        const detailsDiv = document.getElementById('maintenance-details');
+        
+        // Sample data - in real app this would come from the server
+        const maintenanceData = {
+            history: [
+                {date: '2025-01-15', service: 'Oil Change', technician: 'John Doe'},
+                {date: '2024-11-20', service: 'Brake Pad Replacement', technician: 'Sarah Johnson'},
+                {date: '2024-09-05', service: 'Tire Rotation', technician: 'Mike Wilson'}
+            ],
+            components: {
+                'Engine': 92,
+                'Transmission': 88,
+                'Brakes': 85,
+                'Tires': 70,
+                'Battery': 95,
+                'Suspension': 90
+            }
+        };
+        
+        // Create the report HTML
+        let reportHTML = `
+            <div class="maintenance-report">
+                <h3>Component Health</h3>
+                <div class="component-health" style="margin: 20px 0;">
+        `;
+        
+        for (const [component, health] of Object.entries(maintenanceData.components)) {
+            reportHTML += `
+                <div style="margin-bottom: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>${component}</span>
+                        <span>${health}%</span>
+                    </div>
+                    <div style="height: 10px; background: #eee; border-radius: 5px; overflow: hidden;">
+                        <div style="height: 100%; width: ${health}%; background: var(--primary-color);"></div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        reportHTML += `
+                </div>
+                <h3>Maintenance History</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Date</th>
+                            <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Service</th>
+                            <th style="text-align: left; padding: 10px; border-bottom: 1px solid #ddd;">Technician</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        maintenanceData.history.forEach(item => {
+            reportHTML += `
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.date}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.service}</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.technician}</td>
+                </tr>
+            `;
+        });
+        
+        reportHTML += `
+                    </tbody>
+                </table>
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="btn">Download Full Report</button>
+                </div>
+            </div>
+        `;
+        
+        detailsDiv.innerHTML = reportHTML;
+        modal.style.display = 'block';
+        
+        // Close modal when clicking the X
+        const closeBtn = document.querySelector('.close-modal');
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    }
+    
+    // Add modal styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 80%;
+            max-width: 800px;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+{% endblock %}
+
+{% endblock %}

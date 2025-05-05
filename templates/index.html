@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% block title %}AI Car Rentals - Intelligent Car Rental Service{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <span class="ai-badge"><i class="fas fa-robot"></i> AI-Powered Rentals</span>
+            <h1>The Future of Car Rentals Is Here</h1>
+            <p>Experience our AI-driven car rental service that personalizes your journey, optimizes pricing, and ensures the perfect vehicle for your needs.</p>
+            <a href="#features" class="btn">Discover Our Features</a>
+        </div>
+    </div>
+</section>
+
+<section id="features" class="features">
+    <div class="container">
+        <h2 class="section-title">Our AI-Powered Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <img src="{{ url_for('static', filename='images/features/ai_recommendation.jpg') }}" alt="AI Recommendations">
+                <div class="feature-content">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Smart Recommendations</h3>
+                    <p>Our AI analyzes your preferences, past rentals, and current needs to recommend the perfect vehicle for your journey.</p>
+                    <a href="{{ url_for('ai_recommendation') }}" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="feature-card">
+                <img src="{{ url_for('static', filename='images/features/virtual_tour.jpg') }}" alt="Virtual Tour">
+                <div class="feature-content">
+                    <div class="feature-icon">
+                        <i class="fas fa-vr-cardboard"></i>
+                    </div>
+                    <h3>Virtual Car Tours</h3>
+                    <p>Explore every detail of your potential rental with our AI-enhanced virtual tours before making a decision.</p>
+                    <a href="{{ url_for('virtual_tour') }}" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="feature-card">
+                <img src="{{ url_for('static', filename='images/features/smart_pricing.jpg') }}" alt="Smart Pricing">
+                <div class="feature-content">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Dynamic Smart Pricing</h3>
+                    <p>Get the best deals with our AI that adjusts prices based on demand, seasonality, and market conditions.</p>
+                    <a href="{{ url_for('smart_pricing') }}" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="feature-card">
+                <img src="{{ url_for('static', filename='images/features/maintenance.jpg') }}" alt="Predictive Maintenance">
+                <div class="feature-content">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Predictive Maintenance</h3>
+                    <p>Drive with confidence knowing our AI predicts maintenance needs before they become issues.</p>
+                    <a href="{{ url_for('predictive_maintenance') }}" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="car-listings">
+    <div class="container">
+        <h2 class="section-title">Featured Vehicles</h2>
+        <div class="car-grid">
+            {% for car in featured_cars %}
+            <div class="car-card">
+                <img src="{{ car.image }}" alt="{{ car.name }}" class="car-image">
+                <div class="car-content">
+                    <div class="car-title">
+                        <h3>{{ car.name }}</h3>
+                        <div class="car-price">${{ car.price_per_day }}/day</div>
+                    </div>
+                    <span class="car-category">{{ car.category }}</span>
+                    <div class="car-features">
+                        <span><i class="fas fa-user"></i> {{ car.seats }} seats</span>
+                        <span><i class="fas fa-cog"></i> {{ car.transmission }}</span>
+                    </div>
+                    <div class="car-rating">
+                        <i class="fas fa-star"></i>
+                        <span>{{ car.rating }}/5</span>
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <button class="btn">Book Now</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="cta" style="background: var(--gradient); padding: 80px 0; text-align: center; color: white;">
+    <div class="container">
+        <h2 class="section-title" style="color: white;">Ready to Experience the Future of Car Rentals?</h2>
+        <p style="margin-bottom: 30px; font-size: 1.2rem;">Join thousands of satisfied customers who have discovered the convenience of AI-driven car rentals.</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('ai_recommendation') }}" class="btn" style="background: white; color: var(--primary-color); margin-right: 20px;">Get Recommendations</a>
+            <a href="#" class="btn" style="background: transparent; border: 2px solid white;">Sign Up Now</a>
+        </div>
+    </div>
+</section>
+
+<section class="testimonials" style="padding: 80px 0; background-color: #f9f9f9;">
+    <div class="container">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="testimonial-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;">
+            <div class="testimonial-card" style="background: white; padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                <div class="testimonial-rating" style="color: #ffc107; font-size: 1.2rem; margin-bottom: 15px;">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p style="margin-bottom: 20px; font-style: italic;">"The AI recommendation was spot on! I got exactly the car I needed for my family trip, and the price was better than I expected. Will definitely use again!"</p>
+                <div class="testimonial-author" style="display: flex; align-items: center;">
+                    <div class="author-avatar" style="width: 50px; height: 50px; border-radius: 50%; background-color: #ddd; margin-right: 15px; overflow: hidden;">
+                        <img src="{{ url_for('static', filename='images/testimonials/user1.jpg') }}" alt="Sarah M." style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 5px;">Sarah M.</h4>
+                        <span style="color: #666; font-size: 0.9rem;">Family Traveler</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card" style="background: white; padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                <div class="testimonial-rating" style="color: #ffc107; font-size: 1.2rem; margin-bottom: 15px;">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <p style="margin-bottom: 20px; font-style: italic;">"The virtual tour feature sold me! Being able to explore the car before booking gave me confidence that I was making the right choice. The AI chatbot was also incredibly helpful."</p>
+                <div class="testimonial-author" style="display: flex; align-items: center;">
+                    <div class="author-avatar" style="width: 50px; height: 50px; border-radius: 50%; background-color: #ddd; margin-right: 15px; overflow: hidden;">
+                        <img src="{{ url_for('static', filename='images/testimonials/user2.jpg') }}" alt="Michael T." style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 5px;">Michael T.</h4>
+                        <span style="color: #666; font-size: 0.9rem;">Business Traveler</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card" style="background: white; padding: 30px; border-radius: var(--border-radius); box-shadow: var(--shadow);">
+                <div class="testimonial-rating" style="color: #ffc107; font-size: 1.2rem; margin-bottom: 15px;">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p style="margin-bottom: 20px; font-style: italic;">"I love how the smart pricing system showed me when I could get the best deal. Saved me over $100 on my weekly rental by booking just two days earlier than planned!"</p>
+                <div class="testimonial-author" style="display: flex; align-items: center;">
+                    <div class="author-avatar" style="width: 50px; height: 50px; border-radius: 50%; background-color: #ddd; margin-right: 15px; overflow: hidden;">
+                        <img src="{{ url_for('static', filename='images/testimonials/user3.jpg') }}" alt="Lisa K." style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 5px;">Lisa K.</h4>
+                        <span style="color: #666; font-size: 0.9rem;">Weekend Adventurer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ai-insights" style="padding: 80px 0;">
+    <div class="container">
+        <h2 class="section-title">AI-Powered Insights</h2>
+        <div class="insights-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;">
+            <div class="insight-card" style="text-align: center; padding: 20px;">
+                <div class="insight-icon" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <h3 style="margin-bottom: 15px;">Faster Bookings</h3>
+                <p>Our AI processes bookings 5x faster than traditional systems, getting you on the road quickly.</p>
+            </div>
+            <div class="insight-card" style="text-align: center; padding: 20px;">
+                <div class="insight-icon" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3 style="margin-bottom: 15px;">Cost Savings</h3>
+                <p>Customers save an average of 15% through our AI-optimized pricing algorithms.</p>
+            </div>
+            <div class="insight-card" style="text-align: center; padding: 20px;">
+                <div class="insight-icon" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 20px;">
+                    <i class="fas fa-thumbs-up"></i>
+                </div>
+                <h3 style="margin-bottom: 15px;">Satisfaction Rate</h3>
+                <p>97% of customers rate their AI-matched vehicle as "perfect" for their needs.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="newsletter" style="padding: 60px 0; background-color: #e9f0ff;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <h2 class="section-title">Stay Updated</h2>
+        <p style="max-width: 600px; margin-bottom: 30px;">Subscribe to our newsletter for exclusive deals, AI insights, and early access to new features.</p>
+        <form style="display: flex; width: 100%; max-width: 600px;">
+            <input type="email" placeholder="Enter your email address" style="flex: 1; padding: 15px; border: none; border-radius: var(--border-radius) 0 0 var(--border-radius);">
+            <button type="submit" class="btn" style="border-radius: 0 var(--border-radius) var(--border-radius) 0; padding: 15px 30px;">Subscribe</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

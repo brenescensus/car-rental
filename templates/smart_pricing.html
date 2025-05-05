@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Smart Pricing - AI Car Rentals{% endblock %}
+
+{% block content %}
+<section class="pricing-section">
+    <div class="container">
+        <h2 class="section-title">AI-Driven Smart Pricing</h2>
+        <p class="section-description" style="text-align: center; margin-bottom: 30px;">
+            Our advanced AI algorithms analyze market demand, seasonality, and vehicle popularity to provide the most competitive and fair pricing.
+        </p>
+
+        <div class="price-chart">
+            <h3><i class="fas fa-chart-line"></i> Price Trend Forecast</h3>
+            <p>Our AI predicts price trends based on historical data, upcoming events, and market conditions:</p>
+            <canvas id="price-trends-chart" width="400" height="200"></canvas>
+            
+            <div style="margin-top: 30px;">
+                <label for="date-selector">Select a date to see pricing:</label>
+                <select id="date-selector" class="form-control">
+                    {% for date in future_dates %}
+                    <option value="{{ date.date }}">{{ date.date }} 
+                        {% if date.is_weekend %}(Weekend){% endif %}
+                        {% if date.is_holiday %}(Holiday){% endif %}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="pricing-grid">
+            {% for car in cars %}
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>{{ car.name }}</h3>
+                    <div class="price">${{ car.price_per_day }}<span>/day</span></div>
+                    <span class="car-category">{{ car.category }}</span>
+                </div>
+                <div class="pricing-body">
+                    <div class="car-image-container" style="text-align: center; margin-bottom: 15px;">
+                        <img src="{{ car.image }}" alt="{{ car.name }}" style="max-width: 100%; height: auto; border-radius: 8px;">
+                    </div>
+                    
+                    <div class="price-feature">
+                        <i class="fas fa-user"></i>
+                        <span>{{ car.seats }} seats</span>
+                    </div>
+                    <div class="price-feature">
+                        <i class="fas fa-cog"></i>
+                        <span>{{ car.transmission }}</span>
+                    </div>
+                    <div class="price-feature">
+                        <i class="fas fa-star"></i>
+                        <span>{{ car.rating }}/5 rating</span>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">Dynamic Pricing:</h4>
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Base Price</td>
+                                <td>${{ price_adjustments[car.id].base_price }}</td>
+                            </tr>
+                            <tr>
+                                <td>Weekend Price</td>
+                                <td class="high-demand">${{ price_adjustments[car.id].weekend_price }}</td>
+                            </tr>
+                            <tr>
+                                <td>Holiday Price</td>
+                                <td class="high-demand">${{ price_adjustments[car.id].holiday_price }}</td>
+                            </tr>
+                            <tr>
+                                <td>Low Demand</td>
+                                <td class="low-demand">${{ price_adjustments[car.id].low_demand_price }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div style="margin-top: 20px; text-align: center;">
+                        <button class="btn">Book Now</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div style="margin-top: 60px; background: #f0f0f0; padding: 30px; border-radius: 8px;">
+            <h3 style="margin-bottom: 20px;"><i class="fas fa-robot"></i> How Our AI Pricing Works</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div>
+                    <h4><i class="fas fa-calendar-alt"></i> Seasonal Factors</h4>
+                    <p>Our AI analyzes seasonal trends, identifying peak tourist seasons, holidays, and local events that impact demand.</p>
+                </div>
+                <div>
+                    <h4><i class="fas fa-users"></i> Real-Time Demand</h4>
+                    <p>Prices adjust based on current booking patterns, search trends, and competitor pricing in real-time.</p>
+                </div>
+                <div>
+                    <h4><i class="fas fa-car"></i> Vehicle Popularity</h4>
+                    <p>Each vehicle's historical popularity influences pricing, ensuring you get value whether choosing luxury or economy.</p>
+                </div>
+                <div>
+                    <h4><i class="fas fa-percentage"></i> Dynamic Discounts</h4>
+                    <p>Our AI automatically applies discounts during low-demand periods, ensuring optimal fleet utilization.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Additional scripts specifically for this page can go here
+    // The main chart initialization is in script.js
+</script>
+{% endblock %}

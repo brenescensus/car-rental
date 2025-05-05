@@ -1,0 +1,362 @@
+{% extends "base.html" %}
+{% block title %}Virtual Car Tours - AI Car Rentals{% endblock %}
+
+{% block extra_head %}
+<style>
+    .angle-button.active {
+        background: var(--primary-color);
+        color: white;
+    }
+    .tour-feature {
+        padding: 10px;
+        margin-bottom: 10px;
+        background: #f0f0f0;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .tour-feature:hover {
+        background: #e0e0e0;
+    }
+    .tour-feature.active {
+        background: var(--primary-color);
+        color: white;
+    }
+    .hotspot {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 107, 107, 0.8);
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        transition: transform 0.3s ease;
+    }
+    .hotspot:hover {
+        transform: scale(1.2);
+    }
+    .video-container {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    }
+    .video-container video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .tooltip {
+        position: absolute;
+        background: white;
+        padding: 15px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        display: none;
+        z-index: 100;
+        max-width: 250px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-header" style="background: linear-gradient(rgba(30, 42, 120, 0.8), rgba(30, 42, 120, 0.8)), url('{{ url_for('static', filename='images/backgrounds/tour-bg.jpg') }}') no-repeat center center/cover; height: 300px; display: flex; align-items: center; justify-content: center; color: white; text-align: center;">
+    <div class="container">
+        <h1>Experience Our Cars In 360°</h1>
+        <p>AI-powered virtual tours that let you explore every detail before booking</p>
+    </div>
+</section>
+
+<section class="virtual-tour-section">
+    <div class="container">
+        <h2 class="section-title">Interactive Virtual Tours</h2>
+        <p class="text-center" style="margin-bottom: 40px;">Our AI-enhanced virtual tour technology allows you to explore every vehicle in detail, interact with features, and get a real feel for the car before making your decision.</p>
+        
+        <div class="tour-grid">
+            <div class="tour-video">
+                <div class="video-container">
+                    <video id="tour-video" src="{{ url_for('static', filename='videos/ai_demo.mp4') }}" controls poster="{{ url_for('static', filename='images/cars/mercedes_sclass.jpg') }}"></video>
+                    <!-- Interactive hotspots would be added dynamically with JavaScript in a real implementation -->
+                    <div class="hotspot" style="top: 40%; left: 30%;" data-feature="dashboard">1</div>
+                    <div class="hotspot" style="top: 50%; left: 60%;" data-feature="seats">2</div>
+                    <div class="hotspot" style="top: 60%; left: 40%;" data-feature="entertainment">3</div>
+                    
+                    <div class="tooltip" id="dashboard-tooltip">
+                        <h4>Advanced Dashboard</h4>
+                        <p>12.3-inch digital instrument cluster with customizable displays and AI-powered voice control.</p>
+                    </div>
+                    <div class="tooltip" id="seats-tooltip">
+                        <h4>Premium Comfort Seats</h4>
+                        <p>Heated and ventilated seats with massage function and memory settings.</p>
+                    </div>
+                    <div class="tooltip" id="entertainment-tooltip">
+                        <h4>Entertainment System</h4>
+                        <p>State-of-the-art infotainment with wireless smartphone integration and premium sound system.</p>
+                    </div>
+                </div>
+                
+                <div class="car-selection" style="margin-top: 20px; display: flex; gap: 10px; overflow-x: auto; padding: 10px 0;">
+                    <div class="car-thumbnail active" style="min-width: 100px; cursor: pointer; border: 2px solid transparent; border-radius: var(--border-radius); overflow: hidden;" data-car="mercedes">
+                        <img src="{{ url_for('static', filename='images/cars/mercedes_sclass.jpg') }}" alt="Mercedes S-Class" style="width: 100%;">
+                    </div>
+                    <div class="car-thumbnail" style="min-width: 100px; cursor: pointer; border: 2px solid transparent; border-radius: var(--border-radius); overflow: hidden;" data-car="tesla">
+                        <img src="{{ url_for('static', filename='images/cars/tesla_model3.jpg') }}" alt="Tesla Model 3" style="width: 100%;">
+                    </div>
+                    <div class="car-thumbnail" style="min-width: 100px; cursor: pointer; border: 2px solid transparent; border-radius: var(--border-radius); overflow: hidden;" data-car="bmw">
+                        <img src="{{ url_for('static', filename='images/cars/bmw_x5.jpg') }}" alt="BMW X5" style="width: 100%;">
+                    </div>
+                    <div class="car-thumbnail" style="min-width: 100px; cursor: pointer; border: 2px solid transparent; border-radius: var(--border-radius); overflow: hidden;" data-car="jeep">
+                        <img src="{{ url_for('static', filename='images/cars/jeep_wrangler.jpg') }}" alt="Jeep Wrangler" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tour-controls">
+                <h3>Tour Controls</h3>
+                <div class="control-group">
+                    <label>Current View: <span id="current-angle">Front Interior</span></label>
+                    <div class="angle-buttons">
+                        <button class="angle-button active" data-angle="Front Interior">Front</button>
+                        <button class="angle-button" data-angle="Rear Interior">Rear</button>
+                        <button class="angle-button" data-angle="Driver's View">Driver</button>
+                        <button class="angle-button" data-angle="Trunk Space">Trunk</button>
+                        <button class="angle-button" data-angle="Exterior">Exterior</button>
+                        <button class="angle-button" data-angle="Feature Focus">Features</button>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label>Highlighted Features:</label>
+                    <div class="tour-features">
+                        <div class="tour-feature" data-feature="dashboard">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard & Controls
+                        </div>
+                        <div class="tour-feature" data-feature="seats">
+                            <i class="fas fa-chair"></i> Seating & Comfort
+                        </div>
+                        <div class="tour-feature" data-feature="entertainment">
+                            <i class="fas fa-music"></i> Entertainment System
+                        </div>
+                        <div class="tour-feature" data-feature="safety">
+                            <i class="fas fa-shield-alt"></i> Safety Features
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tour-info">
+                    <h4>Mercedes-Benz S-Class</h4>
+                    <p><strong>Category:</strong> Luxury</p>
+                    <p><strong>Price:</strong> $300/day</p>
+                    <p><strong>Key AI Features:</strong></p>
+                    <ul style="padding-left: 20px; margin-bottom: 15px;">
+                        <li>Voice-activated MBUX system</li>
+                        <li>Automated parking assistance</li>
+                        <li>Adaptive cruise control</li>
+                        <li>AI-enhanced drive modes</li>
+                    </ul>
+                    <button class="btn">Book This Car</button>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 60px;">
+            <h2 class="section-title">Benefits of Virtual Tours</h2>
+            <div class="features-grid" style="margin-top: 40px;">
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <div class="feature-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Save Time</h3>
+                        <p>Explore multiple vehicles from the comfort of your home without visiting our locations.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <div class="feature-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <h3>Informed Decisions</h3>
+                        <p>Get detailed information about each feature with our interactive tour points.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <div class="feature-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Perfect Match</h3>
+                        <p>Ensure the vehicle meets your specific needs before booking.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-content">
+                        <div class="feature-icon">
+                            <i class="fas fa-vr-cardboard"></i>
+                        </div>
+                        <h3>Immersive Experience</h3>
+                        <p>Our AI enhances standard 360° views with interactive elements and details.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta" style="background: var(--gradient); padding: 80px 0; text-align: center; color: white;">
+    <div class="container">
+        <h2>Ready to Experience the Future of Car Rentals?</h2>
+        <p style="max-width: 600px; margin: 20px auto;">Book your AI-selected vehicle today and enjoy a seamless rental experience powered by the latest technology.</p>
+        <a href="{{ url_for('ai_recommendation') }}" class="btn" style="background: white; color: var(--primary-color);">Get Personalized Recommendations</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Car thumbnail selection
+        const carThumbnails = document.querySelectorAll('.car-thumbnail');
+        carThumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                // Remove active class from all thumbnails
+                carThumbnails.forEach(thumb => thumb.classList.remove('active'));
+                // Add active class to clicked thumbnail
+                this.classList.add('active');
+                
+                // In a real implementation, this would change the video source
+                const carId = this.dataset.car;
+                // Update car info based on selection
+                const tourInfo = document.querySelector('.tour-info');
+                if (carId === 'tesla') {
+                    tourInfo.innerHTML = `
+                        <h4>Tesla Model 3</h4>
+                        <p><strong>Category:</strong> Electric</p>
+                        <p><strong>Price:</strong> $120/day</p>
+                        <p><strong>Key AI Features:</strong></p>
+                        <ul style="padding-left: 20px; margin-bottom: 15px;">
+                            <li>Autopilot self-driving</li>
+                            <li>Smart summon</li>
+                            <li>AI climate control</li>
+                            <li>Neural network navigation</li>
+                        </ul>
+                        <button class="btn">Book This Car</button>
+                    `;
+                } else if (carId === 'bmw') {
+                    tourInfo.innerHTML = `
+                        <h4>BMW X5</h4>
+                        <p><strong>Category:</strong> SUV</p>
+                        <p><strong>Price:</strong> $200/day</p>
+                        <p><strong>Key AI Features:</strong></p>
+                        <ul style="padding-left: 20px; margin-bottom: 15px;">
+                            <li>Intelligent Personal Assistant</li>
+                            <li>Gesture control system</li>
+                            <li>Parking Assistant Plus</li>
+                            <li>Adaptive drive modes</li>
+                        </ul>
+                        <button class="btn">Book This Car</button>
+                    `;
+                } else if (carId === 'jeep') {
+                    tourInfo.innerHTML = `
+                        <h4>Jeep Wrangler</h4>
+                        <p><strong>Category:</strong> SUV</p>
+                        <p><strong>Price:</strong> $150/day</p>
+                        <p><strong>Key AI Features:</strong></p>
+                        <ul style="padding-left: 20px; margin-bottom: 15px;">
+                            <li>Off-road navigation AI</li>
+                            <li>Trail recognition system</li>
+                            <li>Adaptive terrain response</li>
+                            <li>Adventure planning assistant</li>
+                        </ul>
+                        <button class="btn">Book This Car</button>
+                    `;
+                } else {
+                    tourInfo.innerHTML = `
+                        <h4>Mercedes-Benz S-Class</h4>
+                        <p><strong>Category:</strong> Luxury</p>
+                        <p><strong>Price:</strong> $300/day</p>
+                        <p><strong>Key AI Features:</strong></p>
+                        <ul style="padding-left: 20px; margin-bottom: 15px;">
+                            <li>Voice-activated MBUX system</li>
+                            <li>Automated parking assistance</li>
+                            <li>Adaptive cruise control</li>
+                            <li>AI-enhanced drive modes</li>
+                        </ul>
+                        <button class="btn">Book This Car</button>
+                    `;
+                }
+            });
+        });
+        
+        // Interactive hotspots
+        const hotspots = document.querySelectorAll('.hotspot');
+        hotspots.forEach(hotspot => {
+            hotspot.addEventListener('mouseover', function() {
+                const feature = this.dataset.feature;
+                const tooltip = document.getElementById(`${feature}-tooltip`);
+                if (tooltip) {
+                    // Position tooltip near the hotspot
+                    const rect = this.getBoundingClientRect();
+                    tooltip.style.left = `${rect.right + 10}px`;
+                    tooltip.style.top = `${rect.top - 30}px`;
+                    tooltip.style.display = 'block';
+                }
+            });
+            
+            hotspot.addEventListener('mouseout', function() {
+                const feature = this.dataset.feature;
+                const tooltip = document.getElementById(`${feature}-tooltip`);
+                if (tooltip) {
+                    tooltip.style.display = 'none';
+                }
+            });
+        });
+        
+        // Feature highlighting
+        const tourFeatures = document.querySelectorAll('.tour-feature');
+        tourFeatures.forEach(feature => {
+            feature.addEventListener('click', function() {
+                const featureId = this.dataset.feature;
+                
+                // Toggle active class for visual feedback
+                tourFeatures.forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Find the corresponding hotspot and highlight it
+                const hotspot = document.querySelector(`.hotspot[data-feature="${featureId}"]`);
+                if (hotspot) {
+                    hotspots.forEach(h => h.style.transform = 'scale(1)');
+                    hotspot.style.transform = 'scale(1.5)';
+                    hotspot.style.background = 'rgba(74, 107, 255, 0.8)';
+                    
+                    // Auto-show tooltip
+                    const tooltip = document.getElementById(`${featureId}-tooltip`);
+                    if (tooltip) {
+                        // Hide all tooltips first
+                        document.querySelectorAll('.tooltip').forEach(t => t.style.display = 'none');
+                        
+                        // Position and show this tooltip
+                        const rect = hotspot.getBoundingClientRect();
+                        tooltip.style.left = `${rect.right + 10}px`;
+                        tooltip.style.top = `${rect.top - 30}px`;
+                        tooltip.style.display = 'block';
+                        
+                        // Auto-hide after 3 seconds
+                        setTimeout(() => {
+                            tooltip.style.display = 'none';
+                            hotspot.style.transform = 'scale(1)';
+                            hotspot.style.background = 'rgba(255, 107, 107, 0.8)';
+                        }, 3000);
+                    }
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
